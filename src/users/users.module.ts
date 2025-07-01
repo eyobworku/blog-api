@@ -10,11 +10,7 @@ import { GetAllUsersHandler } from './queries/handlers/get-all-users.handler';
 import { ValidateUserHandler } from './queries/handlers/validate-user.handler';
 
 const CommandHandlers = [CreateUserHandler];
-const QueryHandlers = [
-  GetUserHandler,
-  GetAllUsersHandler,
-  ValidateUserHandler,
-];
+const QueryHandlers = [GetUserHandler, GetAllUsersHandler, ValidateUserHandler];
 
 @Module({
   imports: [TypeOrmModule.forFeature([User]), CqrsModule],

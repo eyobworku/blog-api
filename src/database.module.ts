@@ -9,12 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        url:'postgresql://postgres:FRThMbnJkKrpvkizPsCAkJKblPkPuIqx@shuttle.proxy.rlwy.net:14983/railway',
-        // host: configService.get('DB_HOST'),
-        // port: configService.get('DB_PORT'),
-        // username: configService.get('DB_USERNAME'),
-        // password: configService.get('DB_PASSWORD'),
-        // database: configService.get('DB_DATABASE'),
+        url: configService.get('DATABASE_URL'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true, // Disable in production
         logging: true,
