@@ -19,26 +19,7 @@ export class DeletePostHandler implements ICommandHandler<DeletePostCommand> {
     if (post.author.id !== command.userId && !command.isAdmin) {
       throw new ForbiddenException('You can only delete your own posts');
     }
-
-    const queryRunner = this.repository.manager.connection.createQueryRunner();
-
-    try {
-      await queryRunner.connect();
-      await queryRunner.startTransaction();
-
-      // First delete comments (if cascade isn't working)
-      await queryRunner.manager.delete(Comment, { post: { id: command.id } });
-
-      // Then delete the post
-      await queryRunner.manager.delete(Post, command.id);
-
-      await queryRunner.commitTransaction();
-      return { message: 'Post deleted successfully' };
-    } catch (error) {
-      await queryRunner.rollbackTransaction();
-      throw error;
-    } finally {
-      await queryRunner.release();
-    }
+    await this.repository.delete(command.id);
+    return { message: 'Post deleted successfully' };
   }
 }
