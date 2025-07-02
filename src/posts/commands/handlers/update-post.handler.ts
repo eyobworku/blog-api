@@ -9,7 +9,10 @@ export class UpdatePostHandler implements ICommandHandler<UpdatePostCommand> {
   constructor(@InjectRepository(Post) private repository: Repository<Post>) {}
 
   async execute(command: UpdatePostCommand) {
-    const post = await this.repository.findOneBy({ id: command.id });
+    const post = await this.repository.findOne({
+      where: { id: command.id },
+      relations: ['author'],
+    });
 
     if (!post) throw new NotFoundException('Post not found');
     if (post.author.id !== command.userId && !command.isAdmin) {
