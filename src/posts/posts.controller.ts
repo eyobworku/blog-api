@@ -10,6 +10,7 @@ import {
   Query,
   Patch,
   ForbiddenException,
+  ValidationPipe,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -24,12 +25,12 @@ export class PostsController {
 
   @Post()
   @UseGuards(JwtAuthGuard)
-  create(@Body() dto: CreatePostDto, @Req() req) {
+  create(@Body(ValidationPipe) dto: CreatePostDto, @Req() req) {
     return this.postsService.createPost(dto, req.user.id);
   }
 
   @Get()
-  findAll(@Query() pagination: PaginatePostsDto) {
+  findAll(@Query(ValidationPipe) pagination: PaginatePostsDto) {
     return this.postsService.findAllPosts(pagination);
   }
 
@@ -37,7 +38,7 @@ export class PostsController {
   @UseGuards(JwtAuthGuard)
   findUserPosts(
     @Param('userId') userId: number,
-    @Query() pagination: PaginatePostsDto,
+    @Query(ValidationPipe) pagination: PaginatePostsDto,
     @Req() req,
   ) {
     const requestedUserId = Number(userId);
@@ -54,7 +55,11 @@ export class PostsController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard)
-  update(@Param('id') id: string, @Body() dto: UpdatePostDto, @Req() req) {
+  update(
+    @Param('id') id: string,
+    @Body(ValidationPipe) dto: UpdatePostDto,
+    @Req() req,
+  ) {
     return this.postsService.updatePost(
       +id,
       dto,

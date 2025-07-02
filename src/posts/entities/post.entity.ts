@@ -4,9 +4,10 @@ import {
   Column,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { MaxLength } from 'class-validator';
-import { User } from 'src/users/entities/user.entity';
+import { Comment } from '../../comments/entities/comment.entity';
 
 @Entity()
 export class Post {
@@ -33,4 +34,6 @@ export class Post {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
+  @OneToMany(() => Comment, (comment) => comment.post)
+  comments: Comment[];
 }
