@@ -12,7 +12,7 @@ export class DeletePostHandler implements ICommandHandler<DeletePostCommand> {
     const post = await this.repository.findOneBy({ id: command.id });
 
     if (!post) throw new NotFoundException('Post not found');
-    if (post.authorId !== command.userId && !command.isAdmin) {
+    if (post.author.id !== command.userId && !command.isAdmin) {
       throw new ForbiddenException('You can only delete your own posts');
     }
 

@@ -11,6 +11,5 @@ export class CreatePostDto {
   @MaxLength(1000)
   content: string;
 
-  @IsNumber()
   authorId: number;
 }

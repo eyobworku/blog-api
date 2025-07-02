@@ -7,6 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Post } from '../../posts/entities/post.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class Comment {
@@ -19,8 +20,9 @@ export class Comment {
   @ManyToOne(() => Post, (post) => post.comments)
   post: Post;
 
-  @Column({ name: 'author_id' })
-  authorId: number;
+  @ManyToOne(() => User, (user) => user.comments)
+  @JoinColumn({ name: 'author_id' })
+  author: User;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

@@ -12,7 +12,7 @@ export class UpdatePostHandler implements ICommandHandler<UpdatePostCommand> {
     const post = await this.repository.findOneBy({ id: command.id });
 
     if (!post) throw new NotFoundException('Post not found');
-    if (post.authorId !== command.userId && !command.isAdmin) {
+    if (post.author.id !== command.userId && !command.isAdmin) {
       throw new ForbiddenException('You can only update your own posts');
     }
 

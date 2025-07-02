@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { MaxLength } from 'class-validator';
 import { Comment } from '../../comments/entities/comment.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class Post {
@@ -22,8 +23,9 @@ export class Post {
   @MaxLength(1000, { message: 'Content must be shorter than 1000 characters' })
   content: string;
 
-  @Column({ name: 'author_id' })
-  authorId: number;
+  @ManyToOne(() => User, (user) => user.posts)
+  @JoinColumn({ name: 'author_id' })
+  author: User;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
@@ -34,6 +36,9 @@ export class Post {
     onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
-  @OneToMany(() => Comment, (comment) => comment.post)
+  @OneToMany(() => Comment, (comment) => comment.post, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   comments: Comment[];
 }

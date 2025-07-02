@@ -24,7 +24,7 @@ export class CreateCommentHandler
     const comment = this.commentsRepo.create({
       content: command.content,
       post: { id: command.postId },
-      authorId: command.authorId,
+      author: { id: command.authorId },
     });
 
     const savedComment = await this.commentsRepo.save(comment);

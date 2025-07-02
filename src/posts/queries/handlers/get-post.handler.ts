@@ -17,6 +17,7 @@ export class GetPostHandler implements IQueryHandler<GetPostQuery> {
   async execute(query: GetPostQuery): Promise<PostResponseDto> {
     const post = await this.postRepository.findOne({
       where: { id: query.id },
+      relations: ['author'],
     });
 
     if (!post) {

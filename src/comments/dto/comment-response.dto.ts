@@ -1,4 +1,5 @@
-import { Expose } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
+import { UserResponseDto } from 'src/users/dto/user-response.dto';
 
 export class CommentResponseDto {
   @Expose()
@@ -11,5 +12,6 @@ export class CommentResponseDto {
   createdAt: Date;
 
   @Expose()
-  authorId: number;
+  @Type(() => UserResponseDto)
+  author: UserResponseDto;
 }

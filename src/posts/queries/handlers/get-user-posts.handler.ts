@@ -19,7 +19,7 @@ export class GetUserPostsHandler implements IQueryHandler<GetUserPostsQuery> {
     const skip = (page - 1) * limit;
 
     const [posts, total] = await this.postRepository.findAndCount({
-      where: { authorId: query.userId },
+      where: { author: { id: query.userId } },
       // relations: ['author'],
       take: limit,
       skip,

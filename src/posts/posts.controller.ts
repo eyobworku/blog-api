@@ -30,7 +30,10 @@ export class PostsController {
   }
 
   @Get()
-  findAll(@Query(ValidationPipe) pagination: PaginatePostsDto) {
+  async findAll(
+    @Query(ValidationPipe)
+    pagination: PaginatePostsDto,
+  ) {
     return this.postsService.findAllPosts(pagination);
   }
 

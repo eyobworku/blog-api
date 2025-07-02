@@ -21,9 +21,11 @@ export class GetCommentsHandler implements IQueryHandler<GetCommentsQuery> {
     const [post, comments] = await Promise.all([
       this.postRepo.findOne({
         where: { id: query.postId },
+        relations: ['author'],
       }),
       this.commentRepo.find({
         where: { post: { id: query.postId } },
+        relations: ['author'],
         order: { createdAt: 'DESC' },
       }),
     ]);

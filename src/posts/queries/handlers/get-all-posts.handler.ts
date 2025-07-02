@@ -15,11 +15,11 @@ export class GetAllPostsHandler implements IQueryHandler<GetAllPostsQuery> {
   ) {}
 
   async execute(query: GetAllPostsQuery): Promise<PaginatedPostsDto> {
-    const { page = 1, limit = 10 } = query.pagination;
-    const skip = (page - 1) * limit;
+    const { page, limit } = query.pagination;
 
+    const skip = (page - 1) * limit;
     const [posts, total] = await this.postRepository.findAndCount({
-      // relations: ['author'],
+      relations: ['author'],
       take: limit,
       skip,
       order: { createdAt: 'DESC' },

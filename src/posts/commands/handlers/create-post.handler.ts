@@ -9,7 +9,11 @@ export class CreatePostHandler implements ICommandHandler<CreatePostCommand> {
   constructor(@InjectRepository(Post) private repository: Repository<Post>) {}
 
   async execute(command: CreatePostCommand) {
-    const post = this.repository.create(command);
+    const post = this.repository.create({
+      title: command.title,
+      content: command.content,
+      author: { id: command.authorId },
+    });
     return this.repository.save(post);
   }
 }
